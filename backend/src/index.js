@@ -11,6 +11,7 @@ dotenv.config();
 const PORT= process.env.PORT;
 
 import authRoute from "./routes/auth.route.js"
+import messageRoute from "./routes/message.route.js";
 
 app.use(express.json())
 app.use(cookieParser());
