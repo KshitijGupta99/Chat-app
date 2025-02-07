@@ -74,10 +74,25 @@ export const login =async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        res.clearCookie('cookie_name');
+        res.clearCookie('token');
         res.status(201).json({message: "logout successfully"});
     } catch (error) {
         console.log("error in logout controller", error.message);
+        res.status(500).json({message: "Internal server error"});
+    }
+}
+
+export const updatePfp = async (req, res) => {
+    return res;// left for now
+}
+
+export const getUSer = async (req, res) => {
+    try {
+        const user = req.user
+        // console.log(user)
+        res.status(200).json(user);
+    } catch (error) {
+        console.log("error in get-user controller", error.message);
         res.status(500).json({message: "Internal server error"});
     }
 }
