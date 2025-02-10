@@ -11,13 +11,13 @@ import {
   User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import AuthRightImage from "../components/AuthRightImg.jsx";
 import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     password: "",
   });
@@ -25,7 +25,7 @@ const SignUp = () => {
   const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = () => {
-    if (!formData.fullName.trim()) return toast.error("Full name is required");
+    if (!formData.fullname.trim()) return toast.error("Full name is required");
     if (!formData.email.trim()) return toast.error("Email is required");
     if (!/\S+@\S+\.\S+/.test(formData.email))
       return toast.error("Invalid email format");
@@ -79,8 +79,8 @@ const SignUp = () => {
                   type="text"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="John Doe"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  value={formData.fullname}
+                  onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
                 />
               </div>
             </div>
@@ -157,10 +157,10 @@ const SignUp = () => {
 
       {/* right side */}
 
-      {/* <AuthImagePattern
+      <AuthRightImage 
         title="Join our community"
         subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
-      /> */}
+      />
     </div>
   );
 

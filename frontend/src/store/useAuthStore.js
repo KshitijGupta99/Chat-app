@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import { Axios } from "../lib/axios.js";
 import toast from "react-hot-toast";
+import { Result } from "postcss";
 
 export const useAuthStore = create((set)=>({
     authUser : null,
@@ -11,7 +12,7 @@ export const useAuthStore = create((set)=>({
 
     checkAuth: async()=>{
         try {
-            const res = await Axios.get("/auth/check");
+            const res = await Axios.get("/auth/get-user");
 
             set({authUser: res.data})
         } catch (error) {
@@ -27,19 +28,37 @@ export const useAuthStore = create((set)=>({
         try {
             console.log(data)
             const res = await Axios.post("/auth/signup", data);
-            toast.success("Account created successfully ");
             set({authUser: res.data});
+            toast.success("Account created successfully ");
+            // get().connectSocket();
+            console.log(res.message);
             
         } catch (error) {
-            toast.error(error);
+            toast.error(error.response?.data?.message);
         }finally{
             set({isSigningup: false});
         }
     },
 
+    login: async (data) => {
+        set({ isLoggingIn: true });
+        try {
+          const res = await Axios.post("/auth/login", data);
+          set({ authUser: res.data });
+          toast.success("Logged in successfully");
+    
+          get().connectSocket();
+        } catch (error) {
+          toast.error(error.response.data.message);
+        } finally {
+          set({ isLoggingIn: false });
+        }
+      },
+
     logout:async ()=>{
         try {
-            const res = await Axios.post();
+            const res = await Axios.post("/auth/logout");
+            set({authUser: null});
             toast.success("logout succesfully");
         } catch (error) {
             toast.error(error);

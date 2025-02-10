@@ -30,6 +30,7 @@ export const signup = async(req,res)=>{
         if(newUser){
             genrateToken(newUser._id, res);
             await newUser.save();
+            console.log(newUser, "user creaated succefully !")
             res.status(201).json({
                 _id: newUser._id,
                 fullname: newUser.fullname,
