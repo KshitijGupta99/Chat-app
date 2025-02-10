@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore.js";
+
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// import AuthImagePattern from "../components/AuthImagePattern";
 import toast from "react-hot-toast";
 
-const SignUpPage = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    fullname: "",
-    email: "",        
+    fullName: "",
+    email: "",
     password: "",
   });
 
   const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = () => {
-    if (!formData.fullname.trim()) return toast.error("Full name is required");
+    if (!formData.fullName.trim()) return toast.error("Full name is required");
     if (!formData.email.trim()) return toast.error("Email is required");
     if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");
     if (!formData.password) return toast.error("Password is required");
@@ -30,9 +30,7 @@ const SignUpPage = () => {
     e.preventDefault();
 
     const success = validateForm();
-    console.log(formData.fullname, "fullname");
-    console.log(formData.email, "email");
-    console.log(formData.password, "password");
+
     if (success === true) signup(formData);
   };
 
@@ -41,7 +39,7 @@ const SignUpPage = () => {
       {/* left side */}
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
-          {/* * LOGO * */}
+          {/* LOGO */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div
@@ -68,8 +66,8 @@ const SignUpPage = () => {
                   type="text"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="John Doe"
-                  value={formData.fullname}
-                  onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 />
               </div>
             </div>
@@ -145,7 +143,7 @@ const SignUpPage = () => {
       </div>
 
       {/* right side */}
-      <div>Right side</div>
+
       {/* <AuthImagePattern
         title="Join our community"
         subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
@@ -153,4 +151,4 @@ const SignUpPage = () => {
     </div>
   );
 };
-export default SignUpPage;
+export default SignUp;
