@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
-export const fetchUser = async (req, res, next) => {
+export const  fetchUser = async (req, res, next) => {
     try {
         const token = req.cookies.token;
 
@@ -11,7 +11,7 @@ export const fetchUser = async (req, res, next) => {
 
         if(!decoded) return res.status(401).json({message:"False token provided"});
 
-        const user = await User.findById(decoded.userId).lean();
+        const user = await User.findById(decoded.userId).select("-password");
 
         if(!user){
             return res.status(401).json({message:"No user found"});

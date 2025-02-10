@@ -9,6 +9,8 @@ export const useAuthStore = create((set)=>({
     isLogginIn: false,
     isUpdatingPfp: false,
     isCheckingAuth: true,
+    onlineUser: [],
+    
 
     checkAuth: async()=>{
         try {
@@ -62,6 +64,19 @@ export const useAuthStore = create((set)=>({
             toast.success("logout succesfully");
         } catch (error) {
             toast.error(error);
+        }
+    },
+
+    updatePfp: async (pfpdata) => {
+        try {
+            set({isUpdatingPfp: true});
+            const res = await Axios.put("/auth/update-pfp", pfpdata);
+            toast.success("Pfp changed successfully");
+            set({authUser: res.data});
+        } catch (error) {
+            toast.error(error.response.data.message);
+        } finally {
+          set({ isUpdatingPfp: false });
         }
     }
 }));

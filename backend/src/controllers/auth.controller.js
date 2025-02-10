@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudniary.js";
 import genrateToken from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
@@ -84,7 +85,16 @@ export const logout = async (req, res) => {
 }
 
 export const updatePfp = async (req, res) => {
-    return res;// left for now
+    const {pfp} = req.body;
+    const userId = req._id;
+
+    if(!pfp) return res.status(400).json({message: " Profile pic required "});
+    const uploadRes = await cloudinary.uploader.upload(pfp);
+
+    const updatedUser = await User.findByIdAndUpdate(userId, {pfp: uploadRes.secure_url}, {new: true});
+
+    res.status(200).json(updatedUser);
+
 }
 
 export const getUSer = async (req, res) => {
