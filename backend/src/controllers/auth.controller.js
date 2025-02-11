@@ -85,15 +85,32 @@ export const logout = async (req, res) => {
 }
 
 export const updatePfp = async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     const {pfp} = req.body;
-    const userId = req._id;
+    const userId = req.user._id;
+    console.log(userId, "userId")
 
     if(!pfp) return res.status(400).json({message: " Profile pic required "});
-    const uploadRes = await cloudinary.uploader.upload(pfp);
+    try {
+        const uploadRes = await cloudinary.uploader.upload(pfp, {
+            folder: "profile_pictures",  
+            transformation: [{ width: 500, height: 500, crop: "limit" }] 
+        });
 
-    const updatedUser = await User.findByIdAndUpdate(userId, {pfp: uploadRes.secure_url}, {new: true});
-
-    res.status(200).json(updatedUser);
+        const updatedUser = await User.findByIdAndUpdate(
+            {_id:userId},
+            { pfp: uploadRes.secure_url },
+            { new: true }
+        );
+        console.log(updatedUser);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Cloudinary Upload Error:", error);
+        res.status(500).json({ message: "Failed to upload image. Try again." });
+    }
 
 }
 

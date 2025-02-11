@@ -7,7 +7,7 @@ const authRoute = express.Router();
 authRoute.post("/signup", signup);
 authRoute.post("/login", login);
 authRoute.post("/logout", logout);
-authRoute.put("/update-pfp", fetchUser , updatePfp);
+authRoute.put("/update-pfp", fetchUser, updatePfp);
 authRoute.get("/get-user", fetchUser, getUSer);
 
 export default authRoute;
