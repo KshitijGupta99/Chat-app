@@ -35,7 +35,7 @@ const ChatInput = () => {
     try {
       await sendMessage({
         text: text.trim(),
-        image: imagePreview,
+        img: imagePreview,
       });
 
       // Clear form

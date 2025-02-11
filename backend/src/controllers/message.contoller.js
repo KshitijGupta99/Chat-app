@@ -1,3 +1,5 @@
+import cloudinary from "../lib/cloudniary.js";
+import { getReciverSocketId, io } from "../lib/socket.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 
@@ -35,21 +37,25 @@ export const sendMsg = async (req, res) => {
         
         let imgUrl;
         if(img){
-            // const uploadRes = await cloudinary.uploader.upload(image);
-            // imgUrl = uploadRes.secure_url;
+            const uploadRes = await cloudinary.uploader.upload(img);
+            imgUrl = uploadRes.secure_url;
         }
 
-        const newMSg = new Message({
+        const newMsg = new Message({
             senderId,
             reciverId,
             text,
-            images: img
+            images: imgUrl
         })
 
-        await newMSg.save();
+        await newMsg.save();
+        const reciverSocketId = getReciverSocketId(reciverId);
+        if(reciverSocketId){
+            io.to(reciverSocketId).emit("newMessage", newMsg)
+        }
 
 
-        res.status(201).json(newMSg);
+        res.status(201).json(newMsg);
         // have to built socket io
 
 

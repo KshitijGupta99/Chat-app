@@ -1,23 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import { useAuthStore } from "../store/useAuthStore";
+import MessageSkeleton from "./skeletons/MessageSkeleton";
 
 const ChatContainer = () => {
-  const { messages, getMessages, isMessagesLoading, selectedUser } =
-    useChatStore();
+  const { messages, getMessages, isMessagesLoading, selectedUser, subscribeToMessages, unsubscribeFromMessages } = useChatStore();
   console.log(messages);
+  
   const { authUser } = useAuthStore();
+  const MessageEndRef = useRef(null);
   useEffect(() => {
     getMessages(selectedUser._id);
-  }, [selectedUser._id, getMessages]);
+
+    subscribeToMessages();
+
+    return ()=>unsubscribeFromMessages();
+  }, [selectedUser._id, getMessages, unsubscribeFromMessages, subscribeToMessages]);
+
+  useEffect(()=>{
+    if(MessageEndRef.current && messages){
+      MessageEndRef.current.scrollIntoView({ behaviour : 'smooth'});
+    }
+  }, [messages])
 
   if (isMessagesLoading)
     return (
       <div>
         <ChatHeader />
-        messages...
+        <MessageSkeleton />
         <ChatInput />
       </div>
     );
@@ -42,6 +54,7 @@ const ChatContainer = () => {
               className={`chat ${
                 msg.senderId === authUser._id ? "chat-end" : "chat-start"
               } flex`}
+              ref = {MessageEndRef}
             >
               <div className="chat-image avatar">
                 <div className="size-10 rounded-full border">
@@ -56,9 +69,10 @@ const ChatContainer = () => {
               </div>
               <div className="flex-col">
                 <div className="chat-bubble flex-col">
-                  {msg.image && (
+                  {msg.images && (
                     <img
-                      src={msg.image}
+                      src={msg.images}
+                      style={{maxWidth: '20vw', height: 'auto'}}
                       className="sm:max-w-[200px] rounded-md mb-2"
                       alt="some image"
                     />
