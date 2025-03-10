@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-
+import './index.css'
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
