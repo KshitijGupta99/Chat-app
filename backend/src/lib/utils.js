@@ -5,7 +5,7 @@ const genrateToken = (userId, res)=>{
 
     const token = jwt.sign({userId}, key);
 
-    res.cookie("token", token, {httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV !== "devlopment"});
+    res.cookie("token", token, {httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV !== "development"});
 
     return token;
 
