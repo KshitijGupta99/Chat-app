@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Result } from "postcss";
 import {io} from 'socket.io-client'
 
-const BACKEND_URL = import.meta.env.MODE ==="development" ? 'http://localhost:5001' : import.meta.env.BACKEND_URL ;
+const BACKEND_URL = import.meta.env.MODE ==="development" ? 'http://localhost:5001' : import.meta.env.VITE_BACKEND_URL ;
 
 export const useAuthStore = create((set, get)=>({
     authUser : null,

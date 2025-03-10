@@ -8,7 +8,7 @@ import { Camera, Mail, User } from "lucide-react";
 const Profile = () => {
   const {authUser, isUpdatingPfp, updatePfp} = useAuthStore()
   
-  const[selectedImg, setselectedImg] = useState(null)
+  const [selectedImg, setselectedImg] = useState(null)
   
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];  // ✅ Fix `file` selection
