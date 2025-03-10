@@ -16,7 +16,7 @@ import messageRoute from "./routes/message.route.js";
 
 app.use(cookieParser());
 const corsOptions ={
-    origin:'http://localhost:5173', 
+    origin:['http://localhost:5173','https://chat-app-neon-theta.vercel.app'], 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
