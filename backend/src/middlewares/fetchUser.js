@@ -3,9 +3,9 @@ import User from "../models/user.model.js";
 
 export const  fetchUser = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
+            const token = req.cookies.token;
 
-        if(!token) return res.status(401).json({message:"No token provided"});
+            if(!token) return res.status(401).json({message:"No token provided"});
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
