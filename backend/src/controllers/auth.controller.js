@@ -64,7 +64,7 @@ export const login =async (req, res) => {
         res.status(201).json({
             _id: user._id,
             fullname: user.fullname,
-            email: user.email
+            email: user.email,
             token: token
         })
 
