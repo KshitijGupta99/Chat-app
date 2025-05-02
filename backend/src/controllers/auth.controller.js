@@ -60,11 +60,12 @@ export const login =async (req, res) => {
         const match = await bcrypt.compare(password, user.password);
         if(!match) return res.status(400).json({message: " Invalid Credentials!"});
 
-        genrateToken(user._id, res);
+        const token = await genrateToken(user._id, res);
         res.status(201).json({
             _id: user._id,
             fullname: user.fullname,
-            email: user.email 
+            email: user.email
+            token: token
         })
 
 
