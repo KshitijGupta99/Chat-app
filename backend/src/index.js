@@ -15,12 +15,16 @@ import authRoute from "./routes/auth.route.js"
 import messageRoute from "./routes/message.route.js";
 
 app.use(cookieParser());
-const corsOptions ={
-    origin:['http://localhost:5173','https://chat-app-neon-theta.vercel.app'], 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
+const corsOptions = {
+    origin: ['http://localhost:5173',
+        "http://localhost:19006", // Expo Go
+        "exp://127.0.0.1:19000",  // If using Expo Dev Client
+        "http://localhost:3000",
+        'https://chat-app-neon-theta.vercel.app'],
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200
 }
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));  
 app.use(express.urlencoded({ limit: "50mb", extended: true }));  
 
